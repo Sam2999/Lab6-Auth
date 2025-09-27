@@ -10,12 +10,7 @@ var cons = require("consolidate");
 var path = require("path");
 let app = express();
 
-// ✅ Habilitar dotenv para local
-const dotenv = require("dotenv");
-const dotenvResult = dotenv.config();
-if (dotenvResult.error) {
-  throw new Error(`Failed to load .env file: ${dotenvResult.error.message}`);
-}
+// En Vercel, las variables de entorno ya están disponibles en process.env
 
 //  Esto se los dará Okta.
 const config = {
@@ -74,10 +69,12 @@ app.get("/dashboard", requiresAuth(), (req, res) => {
 const openIdClient = require("openid-client");
 openIdClient.Issuer.defaultHttpOptions.timeout = 20000;
 
+// En Vercel, no se debe llamar a app.listen. Exporta el handler para serverless
 oidc.on("ready", () => {
-  console.log("Server running on port: " + process.env.PORT);
-  app.listen(parseInt(process.env.PORT));
+  console.log("OIDC listo");
 });
+
+module.exports = app;
 
 oidc.on("error", (err) => {
   console.error(err);
