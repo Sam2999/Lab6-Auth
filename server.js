@@ -22,7 +22,7 @@ const config = {
   authRequired: false,
   auth0Logout: true,
   secret: process.env.SECRET,
-  baseURL: process.env.BASE_URL,          // http://localhost:3000
+  baseURL: process.env.BASE_URL,         
   clientID: process.env.OKTA_CLIENT_ID,
   issuerBaseURL: process.env.OKTA_ISSUER_URI, // sin tocar
 };
@@ -31,8 +31,8 @@ let oidc = new ExpressOIDC({
   issuer: process.env.OKTA_ISSUER_URI,
   client_id: process.env.OKTA_CLIENT_ID,
   client_secret: process.env.OKTA_CLIENT_SECRET,
-  redirect_uri: process.env.REDIRECT_URI, // http://localhost:3000/dashboard
-  routes: { callback: { defaultRedirect: process.env.REDIRECT_URI } },
+  redirect_uri: process.env.REDIRECT_URI, 
+  routes: { callback: {defaultRedirect: "https://lab6-auth.vercel.app/dashboard"} },
   scope: "openid profile",
 });
 
